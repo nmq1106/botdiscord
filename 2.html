@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tsukiko Bot - Trải Nghiệm Cute & Đáng Yêu</title>
+    <!-- Google Fonts: Comfortaa & Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(180deg, #b3a5f8 0%, #d1b1f8 50%, #fbc2eb 100%);
+            --card-bg: rgba(255, 255, 255, 0.35);
+            --card-border: rgba(255, 255, 255, 0.75);
+            --pink-accent: #ff758c;
+            --pink-btn: linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%);
+            --text-color: #ffffff;
+            --text-shadow: 0 3px 10px rgba(116, 79, 166, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ----------------------------------------------------
+           KHUNG ĐẦU CÓ ANH NỀN BACKGROUND (HERO HEADER WRAPPER)
+        ---------------------------------------------------- */
+        .hero-header-wrapper {
+            position: relative;
+            width: 100%;
+            /* Thay link ảnh nền khung đầu của bạn tại đây */
+            background-image: url('https://lh3.googleusercontent.com/d/1B6G3X4p6N6g5O9x9E8R7N_v3d3_3b3_b');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding-bottom: 60px;
+        }
+
+        /* Lớp phủ mờ tím/hồng giúp nổi bật nội dung khung đầu */
+        .hero-header-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(147, 128, 245, 0.55) 0%, rgba(184, 162, 248, 0.7) 70%, rgba(216, 180, 248, 0.9) 100%);
+            backdrop-filter: blur(3px);
+            z-index: 1;
+        }
+
+        /* Hiệu ứng ngôi sao lấp lánh nền */
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            background-image: 
+                radial-gradient(2px 2px at 30px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 180px 120px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 350px 90px, #fff, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 500px 220px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 750px 150px, #fff, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 950px 280px, #fff, rgba(0,0,0,0));
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.9; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header Navigation */
+        header {
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Comfortaa', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            text-shadow: var(--text-shadow);
+        }
+
+        .logo-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: #ffb6c1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-link {
+            padding: 10px 22px;
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.45);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-login {
+            background: rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 40px 0 60px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-family: 'Comfortaa', cursive;
+            font-size: 3.8rem;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: var(--text-shadow);
+            color: #ffffff;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 36px;
+            text-shadow: 0 2px 6px rgba(90, 50, 130, 0.4);
+            font-weight: 500;
+            max-width: 520px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 8px 25px rgba(255, 117, 140, 0.4);
+        }
+
+        .btn-primary {
+            background: var(--pink-btn);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(255, 117, 140, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border: 2px solid #fff;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: #fff;
+            color: #9d4edd;
+            transform: translateY(-4px);
+        }
+
+        /* Right Mascot Section */
+        .mascot-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mascot-card {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            border-radius: 40px;
+            padding: 15px;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 45px rgba(116, 79, 166, 0.25);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .mascot-img-container {
+            width: 100%;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .mascot-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .mascot-card:hover .mascot-img {
+            transform: scale(1.03);
+        }
+
+        .qr-card-mini {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 3px dashed #ffd1dc;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4a4a4a;
+            animation: float-reverse 5s ease-in-out infinite;
+        }
+
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(10px); }
+        }
+
+        .qr-card-mini img {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+        }
+
+        .qr-card-mini-text h4 {
+            font-family: 'Comfortaa', cursive;
+            font-size: 0.85rem;
+            color: #ff758c;
+            margin-bottom: 2px;
+        }
+
+        .qr-card-mini-text p {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* Cloud Background Divider */
+        .cloud-divider {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            height: 140px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.3' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            background-size: cover;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ----------------------------------------------------
+           CÁC PHẦN DƯỚI (KHÔNG CÓ ẢNH NỀN, CHỈ CÓ GRADIENT)
+        ---------------------------------------------------- */
+        .features {
+            padding: 80px 0 100px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Comfortaa', cursive;
+            font-size: 2.3rem;
+            margin-bottom: 48px;
+            color: #fff;
+            text-shadow: var(--text-shadow);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 30px;
+            padding: 32px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(116, 79, 166, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #ff758c;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+        }
+
+        .feature-card h4 {
+            font-family: 'Comfortaa', cursive;
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: var(--text-shadow);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ffffff;
+            text-shadow: 0 1px 4px rgba(90, 50, 130, 0.4);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 20px 0 60px;
+        }
+
+        .stats-box {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 35px;
+            padding: 40px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 24px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(116, 79, 166, 0.15);
+        }
+
+        .stat-item h2 {
+            font-family: 'Comfortaa', cursive;
+            font-size: 2.8rem;
+            color: #fff;
+            margin-bottom: 6px;
+            text-shadow: var(--text-shadow);
+        }
+
+        .stat-item p {
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: #fff;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #ffffff;
+            color: #ff758c;
+            padding: 14px 28px;
+            border-radius: 20px;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-desc {
+                margin: 0 auto 36px;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .mascot-card {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.4rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .qr-card-mini {
+                display: none;
+            }
+
+            .stats-box {
+                flex-direction: column;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ngôi sao lấp lánh background -->
+    <div class="stars-bg"></div>
+
+    <!-- KHUNG ĐẦU (Header + Hero) BỌC NỀN ANH -->
+    <div class="hero-header-wrapper">
+        <!-- Header Navigation -->
+        <header class="container">
+            <a href="#" class="logo">
+                <div class="logo-avatar">🌸</div>
+                Tsukiko Bot
+            </a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">Trang chủ</a>
+                <a href="#" class="nav-link">Voice</a>
+                <a href="#" class="nav-link">Store</a>
+                <a href="#" class="nav-link btn-login">
+                    <i class="fa-brands fa-discord"></i> Đăng nhập
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Hero Section -->
+        <main class="container">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Tsukiko! <br>Là gì vậy? 🎀</h1>
+                    <p class="hero-desc">
+                        Quản lý server, kiếm xu, chơi game, câu cá, tìm tình yêu, tổ chức giveaway và tận hưởng nhiều tính năng khác cùng Tsukiko Bot!
+                    </p>
+                    <div class="hero-cta">
+                        <a href="https://discord.gg/YOUR_DISCORD_LINK" target="_blank" class="btn btn-primary" id="joinBtn">
+                            <i class="fa-brands fa-discord"></i> MỜI BOT!
+                        </a>
+                        <button class="btn btn-secondary" onclick="copyInviteLink('https://discord.gg/YOUR_DISCORD_LINK')">
+                            <i class="fa-regular fa-copy"></i> Sao Chép Link
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mascot Image Banner Section -->
+                <div class="mascot-wrapper">
+                    <div class="mascot-card">
+                        <div class="mascot-img-container">
+                            <img class="mascot-img" src="https://ngaphukhang.vn/wp-content/uploads/hinh-nen-anime-girl-boy-may-tinh-dep-hiem-1.jpg" alt="Tsukiko Mascot" onerror="this.src='https://i.imgur.com/8Q9M1mE.png'">
+                        </div>
+                        <!-- Mini QR Badge đè lên ảnh -->
+                        <div class="qr-card-mini">
+                            <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://discord.gg/YOUR_DISCORD_LINK&color=ff758c" alt="QR Code">
+                            <div class="qr-card-mini-text">
+                                <h4>Quét QR Code 📲</h4>
+                                <p>Tham gia nhanh</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Cloud Bottom Divider -->
+        <div class="cloud-divider"></div>
+    </div>
+
+    <!-- PHẦN DƯỚI LƯỚT XUỐNG (Không bị dính ảnh nền khung đầu) -->
+    <div class="container">
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stats-box">
+                <div class="stat-item">
+                    <h2>5.000+</h2>
+                    <p>Thành Viên ✨</p>
+                </div>
+                <div class="stat-item">
+                    <h2>24/7</h2>
+                    <p>Voice Chat Chill 🎧</p>
+                </div>
+                <div class="stat-item">
+                    <h2>50+</h2>
+                    <p>Sự Kiện/Tháng 🎁</p>
+                </div>
+                <div class="stat-item">
+                    <h2>100%</h2>
+                    <p>Cute & Vui Vẻ 💕</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="features">
+            <h2 class="section-title">ĐẶC QUYỀN ĐÁNG YÊU 💖</h2>
+            <div class="grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h4>Phòng Game Đa Dạng</h4>
+                    <p>Tìm cạ cứng chiến CS:GO, League of Legends, Valorant hay Among Us cực nhanh chóng.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <h4>Âm Nhạc & Chill 24/7</h4>
+                    <p>Lắng nghe những giai điệu lofi dịu êm cùng bạn bè trong không gian ấm cúng.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h4>Giveaway Hàng Tuần</h4>
+                    <p>Cơ hội nhận Discord Nitro, Game Steam và nhiều phần quà ngọt ngào khác.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-cat"></i>
+                    </div>
+                    <h4>Minigame & Tình Yêu</h4>
+                    <p>Trải nghiệm hệ thống kết hôn, nuôi thú cưng, câu cá và cày xu siêu nhộn.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 TSUKIKO BOT COMMUNITY. MADE WITH 💕 FOR YOU.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-heart"></i>
+        <span>Đã sao chép liên kết tham gia!</span>
+    </div>
+
+    <!-- JavaScript Handling -->
+    <script>
+        // Cấu hình Link Discord tại đây
+        const DISCORD_INVITE_LINK = "https://discord.gg/YOUR_DISCORD_LINK"; 
+
+        // Hàm sao chép link liên kết
+        function copyInviteLink(link) {
+            const inviteUrl = link || DISCORD_INVITE_LINK;
+            navigator.clipboard.writeText(inviteUrl).then(() => {
+                showToast();
+            }).catch(err => {
+                console.error('Không thể sao chép: ', err);
+            });
+        }
+
+        // Hàm hiển thị thông báo Toast
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Tự động cập nhật QR code và Link
+        document.addEventListener('DOMContentLoaded', () => {
+            const joinBtn = document.getElementById('joinBtn');
+            const qrImg = document.getElementById('qrCodeImage');
+
+            if (DISCORD_INVITE_LINK !== "https://discord.gg/YOUR_DISCORD_LINK") {
+                joinBtn.href = DISCORD_INVITE_LINK;
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(DISCORD_INVITE_LINK)}&color=ff758c`;
+            }
+        });
+    </script>
+</body>
+</html>

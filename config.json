@@ -1,0 +1,191 @@
+{
+  "minBet": 1000,
+  "maxBet": 2000000,
+  "initialMoney": 200000,
+  "banks": [
+    {
+      "id": "bank_1",
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountHolder": "NGUYEN MINH QUOC",
+      "accountNumber": "0356890540",
+      "branch": "Ha Noi",
+      "content": "NAP [TEN] [SO TIEN]",
+      "active": true,
+      "createdAt": 1700000000000,
+      "updatedAt": 1785611702978
+    },
+    {
+      "id": "bank_2",
+      "bankName": "Vietcombank",
+      "bankCode": "VCB",
+      "accountHolder": "NGUYEN MINH QUOC",
+      "accountNumber": "1234567890",
+      "branch": "Ha Noi",
+      "content": "NAP GAME [TEN]",
+      "active": false,
+      "createdAt": 1700000000001,
+      "updatedAt": 1785605034218
+    },
+    {
+      "id": "bank_3",
+      "bankName": "Techcombank",
+      "bankCode": "TCB",
+      "accountHolder": "NGUYEN MINH QUOC",
+      "accountNumber": "0987654321",
+      "branch": "Ho Chi Minh",
+      "content": "NAP [TEN] [SO TIEN]",
+      "active": false,
+      "createdAt": 1700000000002,
+      "updatedAt": 1785611700313
+    }
+  ],
+  "bankInfo": {
+    "bankName": "MB Bank",
+    "bankCode": "MB",
+    "accountNumber": "0356890540",
+    "accountName": "NGUYEN MINH QUOC",
+    "branch": "Ha Noi"
+  },
+  "gameConfigs": {
+    "luckydraw": {
+      "winRate": 35,
+      "lossRate": 40,
+      "drawRate": 25,
+      "multipliers": {
+        "2x": 25,
+        "3x": 18,
+        "5x": 10,
+        "10x": 5,
+        "20x": 2
+      }
+    },
+    "crash": {
+      "winRate": 45,
+      "lossRate": 55,
+      "drawRate": 0,
+      "crashProbability": 55,
+      "maxMultiplier": 10,
+      "minMultiplier": 1.1
+    },
+    "blackjack": {
+      "winRate": 45,
+      "lossRate": 55,
+      "drawRate": 0,
+      "blackjackRate": 5,
+      "dealerBustRate": 20,
+      "pushRate": 10
+    },
+    "taixiu": {
+      "winRate": 48,
+      "lossRate": 52,
+      "drawRate": 0
+    },
+    "xocdia": {
+      "winRate": 48,
+      "lossRate": 52,
+      "drawRate": 0
+    },
+    "slot": {
+      "winRate": 30,
+      "lossRate": 70,
+      "drawRate": 0,
+      "jackpotRate": 5,
+      "jackpotMultiplier": 15,
+      "threeMatchMultiplier": 5,
+      "twoMatchMultiplier": 2
+    },
+    "kbb": {
+      "winRate": 33,
+      "lossRate": 34,
+      "drawRate": 33
+    },
+    "horse": {
+      "winRate": 40,
+      "lossRate": 60,
+      "drawRate": 0,
+      "maxSpeed": 12,
+      "minSpeed": 1,
+      "raceRounds": 15
+    },
+    "racing": {
+      "winRate": 40,
+      "lossRate": 60,
+      "drawRate": 0,
+      "maxSpeed": 14,
+      "minSpeed": 1,
+      "raceRounds": 18
+    },
+    "baucua": {
+      "winRate": 30,
+      "lossRate": 70,
+      "drawRate": 0,
+      "matchMultiplier": 2
+    },
+    "guess": {
+      "winRate": 40,
+      "lossRate": 60,
+      "drawRate": 0,
+      "maxAttempts": 10,
+      "bonusMultiplier": 1
+    },
+    "lottery": {
+      "winRate": 30,
+      "lossRate": 70,
+      "drawRate": 0,
+      "matchMultipliers": {
+        "1": 2,
+        "2": 10,
+        "3": 100
+      }
+    },
+    "poker": {
+      "winRate": 45,
+      "lossRate": 55,
+      "drawRate": 10
+    },
+    "roulette": {
+      "winRate": 48,
+      "lossRate": 52,
+      "drawRate": 0,
+      "redRate": 48,
+      "blackRate": 48,
+      "greenRate": 4
+    },
+    "dice": {
+      "winRate": 50,
+      "lossRate": 50,
+      "drawRate": 0,
+      "exactMultiplier": 6,
+      "rangeMultiplier": 2
+    },
+    "coinflip": {
+      "winRate": 50,
+      "lossRate": 50,
+      "drawRate": 0
+    }
+  },
+  "playerOverrides": {
+    "123456789012345678": {
+      "luckydraw": {
+        "winRate": 50,
+        "lossRate": 35,
+        "drawRate": 15
+      },
+      "crash": {
+        "winRate": 55,
+        "lossRate": 45,
+        "drawRate": 0,
+        "crashProbability": 45,
+        "maxMultiplier": 12,
+        "minMultiplier": 1.05
+      }
+    }
+  },
+  "globalWinRate": {
+    "enabled": true,
+    "winRate": 30,
+    "lossRate": 70,
+    "drawRate": 0
+  }
+}

@@ -1,0 +1,352 @@
+{
+  "NAP1266CYWAR475": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 20000,
+    "transactionId": "NAP1266CYWAR475",
+    "transferContent": "NAP queendee1106_nee 20000 VND",
+    "time": 1785413938295,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    }
+  },
+  "NAP1266WXORVW9C": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 200000,
+    "transactionId": "NAP1266WXORVW9C",
+    "transferContent": "NAP queendee1106_nee 200000 VND",
+    "time": 1785419909937,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785424572397
+  },
+  "NAP12662COELJZY": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 9000000,
+    "transactionId": "NAP12662COELJZY",
+    "transferContent": "NAP queendee1106_nee 9000000 VND",
+    "time": 1785420160926,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785425602924
+  },
+  "NAP12662COGK2PP": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 9000000,
+    "transactionId": "NAP12662COGK2PP",
+    "transferContent": "NAP queendee1106_nee 9000000 VND",
+    "time": 1785420161259,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785425539427
+  },
+  "NAP1266CX12I1L7": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 80000,
+    "transactionId": "NAP1266CX12I1L7",
+    "transferContent": "NAP queendee1106_nee 80000 VND",
+    "time": 1785420654182,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785425596880
+  },
+  "NAP1428D2UPZZZ5": {
+    "userId": "811175649275281428",
+    "username": "hlinh.qt",
+    "amount": 100000,
+    "transactionId": "NAP1428D2UPZZZ5",
+    "transferContent": "NAP hlinh.qt 100000 VND",
+    "time": 1785420661373,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785425573518
+  },
+  "NAP1428D2UPBBT9": {
+    "userId": "811175649275281428",
+    "username": "hlinh.qt",
+    "amount": 100000,
+    "transactionId": "NAP1428D2UPBBT9",
+    "transferContent": "NAP hlinh.qt 100000 VND",
+    "time": 1785420661944,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    }
+  },
+  "NAP1428E7QI7SX8": {
+    "userId": "811175649275281428",
+    "username": "hlinh.qt",
+    "amount": 100000000,
+    "transactionId": "NAP1428E7QI7SX8",
+    "transferContent": "NAP hlinh.qt 100000000 VND",
+    "time": 1785420714293,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785425611406
+  },
+  "NAP1428E7QMIW6B": {
+    "userId": "811175649275281428",
+    "username": "hlinh.qt",
+    "amount": 100000000,
+    "transactionId": "NAP1428E7QMIW6B",
+    "transferContent": "NAP hlinh.qt 100000000 VND",
+    "time": 1785420714555,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    }
+  },
+  "NAP1428ZYID7TE3": {
+    "userId": "811175649275281428",
+    "username": "hlinh.qt",
+    "amount": 100000000,
+    "transactionId": "NAP1428ZYID7TE3",
+    "transferContent": "NAP hlinh.qt 100000000 VND",
+    "time": 1785421728717,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    }
+  },
+  "NAP1428ZYIRQ9FH": {
+    "userId": "811175649275281428",
+    "username": "hlinh.qt",
+    "amount": 100000000,
+    "transactionId": "NAP1428ZYIRQ9FH",
+    "transferContent": "NAP hlinh.qt 100000000 VND",
+    "time": 1785421728853,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    }
+  },
+  "NAP14283DVJ2CAX": {
+    "userId": "811175649275281428",
+    "username": "hlinh.qt",
+    "amount": 100000000,
+    "transactionId": "NAP14283DVJ2CAX",
+    "transferContent": "NAP hlinh.qt 100000000 VND",
+    "time": 1785423568297,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    }
+  },
+  "NAPXQ3OGTBIMY74": {
+    "transactionId": "NAPXQ3OGTBIMY74",
+    "userId": "811175649275281428",
+    "username": "811175649275281428",
+    "amount": 500000,
+    "note": "Tạo từ web admin",
+    "status": "completed",
+    "time": 1785425819322,
+    "transferContent": "NAP 811175649275281428 500000 VND",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC",
+      "branch": "Ha Noi"
+    },
+    "processedAt": 1785425839322
+  },
+  "NAP12663MQ1P9EU": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 20000,
+    "transactionId": "NAP12663MQ1P9EU",
+    "transferContent": "NAP queendee1106_nee 20000 VND",
+    "time": 1785618416042,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785618439373,
+    "processedBy": "queendee1106_nee"
+  },
+  "NAP12664TUENFUA": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 16000,
+    "transactionId": "NAP12664TUENFUA",
+    "transferContent": "NAP queendee1106_nee 16000 VND",
+    "time": 1785618473128,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785618484332,
+    "processedBy": "queendee1106_nee"
+  },
+  "NAP1266BV3J3QOZ": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 16000,
+    "transactionId": "NAP1266BV3J3QOZ",
+    "transferContent": "NAP queendee1106_nee 16000 VND",
+    "time": 1785618799545,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785618834697,
+    "processedBy": "queendee1106_nee"
+  },
+  "NAP1266JK9H0D9K": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 20000,
+    "transactionId": "NAP1266JK9H0D9K",
+    "transferContent": "NAP queendee1106_nee 20000 VND",
+    "time": 1785667867543,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    }
+  },
+  "NAPBIJ99P6WTZV0": {
+    "transactionId": "NAPBIJ99P6WTZV0",
+    "userId": "1137006138433486848",
+    "username": "1137006138433486848",
+    "amount": 50000,
+    "note": "Nạp tiền vào game",
+    "status": "completed",
+    "time": 1785668419923,
+    "transferContent": "NAP 1137006138433486848 50000 VND",
+    "processedAt": 1785668476013,
+    "processedBy": "queendee1106_nee"
+  },
+  "NAP6848Q5JJL5XC": {
+    "userId": "1137006138433486848",
+    "username": "gautrang1106_",
+    "amount": 90000000,
+    "transactionId": "NAP6848Q5JJL5XC",
+    "transferContent": "NAP gautrang1106_ 90000000 VND",
+    "time": 1785844534816,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785844544843,
+    "processedBy": "queendee1106_nee"
+  },
+  "NAP6848K0EKQ2EG": {
+    "userId": "1137006138433486848",
+    "username": "gautrang1106_",
+    "amount": 900000,
+    "transactionId": "NAP6848K0EKQ2EG",
+    "transferContent": "NAP gautrang1106_ 900000 VND",
+    "time": 1785854325734,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785854335244,
+    "processedBy": "queendee1106_nee"
+  },
+  "NAP6848YKM7ASIF": {
+    "userId": "1137006138433486848",
+    "username": "gautrang1106_",
+    "amount": 9000000,
+    "transactionId": "NAP6848YKM7ASIF",
+    "transferContent": "NAP gautrang1106_ 9000000 VND",
+    "time": 1785855005086,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1785855035728,
+    "processedBy": "queendee1106_nee"
+  },
+  "NAP126626A4PAJF": {
+    "userId": "1366805947711881266",
+    "username": "queendee1106_nee",
+    "amount": 9000000,
+    "transactionId": "NAP126626A4PAJF",
+    "transferContent": "NAP queendee1106_nee 9000000 VND",
+    "time": 1786113834080,
+    "status": "completed",
+    "bankInfo": {
+      "bankName": "MB Bank",
+      "bankCode": "MB",
+      "accountNumber": "0356890540",
+      "accountName": "NGUYEN MINH QUOC"
+    },
+    "processedAt": 1786113871151,
+    "processedBy": "queendee1106_nee"
+  }
+}

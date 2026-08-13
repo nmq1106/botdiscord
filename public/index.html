@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Bot Game - Giải Trí Đỉnh Cao</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+        * { font-family: 'Quicksand', sans-serif; transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+
+        :root {
+            --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-card: rgba(255,255,255,0.04);
+            --text-primary: #ffffff; --text-secondary: #9ca3af; --border-color: rgba(255,255,255,0.06);
+            --shadow-color: rgba(0,0,0,0.6); --grid-color: rgba(255,255,255,0.04); --accent-color: #8b5cf6;
+        }
+        [data-theme="light"] {
+            --bg-primary: #f0f0f0; --bg-secondary: #ffffff; --bg-card: rgba(0,0,0,0.04);
+            --text-primary: #1a1a1a; --text-secondary: #6b7280; --border-color: rgba(0,0,0,0.06);
+            --shadow-color: rgba(0,0,0,0.08); --grid-color: rgba(0,0,0,0.06); --accent-color: #7c3aed;
+        }
+        body { background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+
+        .grid-background {
+            position: fixed; inset: 0;
+            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px; z-index: 0; pointer-events: none;
+        }
+        .glass-panel {
+            background: var(--bg-card); backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color); box-shadow: 0 8px 40px var(--shadow-color);
+            position: relative; z-index: 1;
+        }
+        .glass-panel:hover { border-color: rgba(139,92,246,0.2); }
+
+        .theme-toggle {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            color: var(--text-primary); padding: 8px 14px; border-radius: 14px;
+            cursor: pointer; backdrop-filter: blur(12px); z-index: 100;
+        }
+        .theme-toggle:hover { transform: scale(1.05); border-color: var(--accent-color); box-shadow: 0 0 30px rgba(139,92,246,0.1); }
+
+        .particle { position: fixed; pointer-events: none; animation: floatUp linear infinite; opacity: 0.2; z-index: 0; font-size: 22px; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+            10%, 90% { opacity: 0.2; }
+            100% { transform: translateY(-10vh) scale(1) rotate(720deg); opacity: 0; }
+        }
+
+        .float { animation: float 4s ease-in-out infinite; }
+        @keyframes float { 0%,100% { transform: translateY(0px) rotate(-2deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
+        .float-delay-1 { animation-delay: 0.5s; }
+        .float-delay-2 { animation-delay: 1s; }
+        .float-delay-3 { animation-delay: 1.5s; }
+
+        .glow-text { animation: glowText 3s ease-in-out infinite alternate; }
+        @keyframes glowText {
+            from { text-shadow: 0 0 20px rgba(139,92,246,0.1); }
+            to { text-shadow: 0 0 40px rgba(139,92,246,0.3), 0 0 80px rgba(139,92,246,0.1); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
+            background-size: 300% 300%; animation: gradientMove 4s ease-in-out infinite alternate;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+
+        .game-card {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; overflow: hidden; position: relative;
+        }
+        .game-card::before {
+            content: ''; position: absolute; inset: -50%;
+            background: radial-gradient(circle at center, rgba(139,92,246,0.05), transparent 60%);
+            animation: rotateGlow 20s linear infinite;
+        }
+        @keyframes rotateGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .game-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 60px rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); }
+        .game-card>* { position: relative; z-index: 1; }
+
+        .pulse-btn { animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(139,92,246,0.4); } 50% { box-shadow: 0 0 0 20px rgba(139,92,246,0); } }
+
+        .stats-number {
+            font-size: 2.5rem; font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--bg-primary); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 4px; }
+
+        .bank-input-group { position: relative; margin-bottom: 20px; }
+        .bank-input-group .input-icon {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            color: var(--text-secondary); font-size: 0.9rem;
+        }
+        .bank-input-group input, .bank-input-group select {
+            width: 100%; padding: 12px 12px 12px 44px; border-radius: 12px;
+            border: 2px solid var(--border-color); background: var(--bg-primary);
+            color: var(--text-primary); font-size: 0.95rem; transition: all 0.3s;
+        }
+        .bank-input-group input:focus, .bank-input-group select:focus {
+            outline: none; border-color: var(--accent-color);
+            box-shadow: 0 0 30px rgba(139,92,246,0.05);
+        }
+        .bank-input-group input::placeholder { color: var(--text-secondary); opacity: 0.6; }
+        .bank-input-group .input-label {
+            position: absolute; left: 44px; top: -10px; background: var(--bg-primary);
+            padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) { .stats-number { font-size: 1.8rem; } }
+        @media (max-width: 480px) { .grid-background { background-size: 30px 30px; } }
+
+        .shimmer {
+            background: linear-gradient(90deg, var(--bg-card) 25%, rgba(139,92,246,0.05) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%; animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    </style>
+</head>
+<body class="custom-scrollbar">
+
+    <!-- Grid Background + Particles -->
+    <div class="grid-background"></div>
+    <div id="particles"></div>
+
+    <!-- NAVBAR -->
+    <nav class="glass-panel sticky top-0 z-50 border-b px-4 py-3" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-2.5 rounded-2xl text-white shadow-lg shadow-purple-500/20">
+                    <i class="fa-solid fa-gamepad text-xl"></i>
+                </div>
+                <span class="font-bold text-lg tracking-wide gradient-text">🎮 Bot Game</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleTheme()" class="theme-toggle">
+                    <i id="themeIcon" class="fa-solid fa-moon"></i>
+                </button>
+                <div id="navAuthSection" class="flex items-center space-x-4">
+                    <div class="animate-pulse flex space-x-2 items-center text-sm" style="color: var(--text-secondary);">
+                        <i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i>
+                        <span>Đang tải...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 relative z-10">
+
+        <!-- SIDEBAR -->
+        <aside id="sidebarNav" class="lg:col-span-1 space-y-2 hidden">
+            <div class="glass-panel p-4 rounded-2xl space-y-1">
+                <div class="text-xs font-semibold text-purple-400 uppercase tracking-wider px-3 mb-2">🎯 Menu</div>
+                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition text-purple-400 bg-white/10">
+                    <i class="fa-solid fa-chart-simple w-5 text-center"></i><span>Tổng quan</span>
+                </button>
+                <button onclick="switchTab('deposit')" id="btn-deposit" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition hover:bg-white/10" style="color: var(--text-secondary);">
+                    <i class="fa-solid fa-wallet w-5 text-center"></i><span>Nạp tiền</span>
+                </button>
+                <div id="adminNavGroup" class="hidden pt-4 border-t space-y-1" style="border-color: var(--border-color);">
+                    <div class="text-xs font-semibold text-amber-400 uppercase tracking-wider px-3 mb-2">⚙️ Admin</div>
+                    <button onclick="switchTab('admin-winrate')" id="btn-admin-winrate" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition hover:bg-white/10" style="color: var(--text-secondary);">
+                        <i class="fa-solid fa-percent w-5 text-center text-amber-400"></i><span>Win/Loss</span>
+                    </button>
+                    <button onclick="switchTab('admin-banks')" id="btn-admin-banks" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition hover:bg-white/10" style="color: var(--text-secondary);">
+                        <i class="fa-solid fa-building-columns w-5 text-center text-amber-400"></i><span>Ngân hàng</span>
+                    </button>
+                    <button onclick="switchTab('admin-users')" id="btn-admin-users" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition hover:bg-white/10" style="color: var(--text-secondary);">
+                        <i class="fa-solid fa-coins w-5 text-center text-amber-400"></i><span>Số dư</span>
+                    </button>
+                    <button onclick="switchTab('admin-deposits')" id="btn-admin-deposits" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition hover:bg-white/10" style="color: var(--text-secondary);">
+                        <i class="fa-solid fa-circle-check w-5 text-center text-amber-400"></i><span>Xác thực nạp</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENT -->
+        <section class="lg:col-span-3">
+
+            <!-- UNAUTHENTICATED -->
+            <div id="view-unauth" class="space-y-8">
+                <div class="glass-panel p-8 md:p-12 rounded-3xl text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 text-8xl opacity-5 float">🎮</div>
+                    <div class="absolute bottom-0 left-0 text-8xl opacity-5 float float-delay-2">🕹️</div>
+                    <div class="relative z-10 space-y-6">
+                        <div class="flex justify-center">
+                            <div class="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 p-5 rounded-3xl shadow-2xl shadow-purple-500/20 float">
+                                <i class="fa-solid fa-gamepad text-6xl text-white"></i>
+                            </div>
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-bold glow-text"><span class="gradient-text">🎯 Game Bot Giải Trí</span></h1>
+                        <p class="text-xl md:text-2xl max-w-3xl mx-auto" style="color: var(--text-secondary);">Chơi game, nhận thưởng, kết bạn - Tất cả trong một Bot Discord! ⚡</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="game-card glass-panel p-6 rounded-2xl text-center border-2 border-purple-500/20">
+                        <div class="text-5xl mb-3 float">🎮</div>
+                        <h3 class="font-bold text-lg mb-2" style="color: var(--text-primary);">Mini-game Đa Dạng</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">⚡ Hàng chục game hấp dẫn, cập nhật liên tục</p>
+                    </div>
+                    <div class="game-card glass-panel p-6 rounded-2xl text-center border-2 border-pink-500/20">
+                        <div class="text-5xl mb-3 float float-delay-1">💰</div>
+                        <h3 class="font-bold text-lg mb-2" style="color: var(--text-primary);">Phần Thưởng Khủng</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">💎 Nhận xu, vật phẩm, và nhiều ưu đãi đặc biệt</p>
+                    </div>
+                    <div class="game-card glass-panel p-6 rounded-2xl text-center border-2 border-cyan-500/20">
+                        <div class="text-5xl mb-3 float float-delay-2">👥</div>
+                        <h3 class="font-bold text-lg mb-2" style="color: var(--text-primary);">Cộng Đồng Sôi Động</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">🤝 Kết nối với hàng ngàn game thủ</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                        <div class="text-center space-y-3">
+                            <div class="bg-white p-4 rounded-2xl inline-block relative">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://discord.gg/your-server-invite" alt="QR Code" class="w-48 h-48 rounded-xl">
+                                <div class="absolute -top-2 -right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg pulse-btn">🎯</div>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);"><i class="fa-solid fa-qrcode text-purple-400 mr-1"></i>Quét mã để tham gia ngay!</p>
+                        </div>
+                        <div class="text-center space-y-5 max-w-sm">
+                            <h2 class="text-3xl font-bold"><span class="gradient-text">🚀 Bắt Đầu Ngay!</span></h2>
+                            <p style="color: var(--text-secondary);">⚡ Đăng nhập bằng Discord để vào thế giới game</p>
+                            <a href="/auth/discord" class="inline-flex items-center justify-center space-x-3 text-white font-bold px-8 py-4 rounded-2xl w-full shadow-2xl shadow-purple-500/30 pulse-btn" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
+                                <i class="fa-brands fa-discord text-2xl"></i><span>Tham Gia Ngay</span><i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="glass-panel p-5 rounded-2xl text-center shimmer"><div class="stats-number">10K+</div><div class="text-xs mt-1" style="color: var(--text-secondary);">👾 Game thủ</div></div>
+                    <div class="glass-panel p-5 rounded-2xl text-center shimmer"><div class="stats-number">50+</div><div class="text-xs mt-1" style="color: var(--text-secondary);">🎮 Mini-game</div></div>
+                    <div class="glass-panel p-5 rounded-2xl text-center shimmer"><div class="stats-number">24/7</div><div class="text-xs mt-1" style="color: var(--text-secondary);">🕐 Hoạt động</div></div>
+                    <div class="glass-panel p-5 rounded-2xl text-center shimmer"><div class="stats-number">🎁</div><div class="text-xs mt-1" style="color: var(--text-secondary);">✨ Sự kiện</div></div>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div id="tabsContent" class="hidden">
+                <!-- DASHBOARD -->
+                <div id="tab-dashboard" class="tab-content space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 border-l-4 border-purple-500">
+                        <div class="flex items-center space-x-4">
+                            <img id="userAvatar" class="w-16 h-16 rounded-full border-2 border-purple-500/50" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Avatar">
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h2 id="userName" class="text-xl font-bold" style="color: var(--text-primary);">Guest</h2>
+                                    <span id="userBadge" class="hidden text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 font-semibold">ADMIN</span>
+                                </div>
+                                <p id="userId" class="text-xs font-mono mt-1" style="color: var(--text-secondary);">ID: --</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs uppercase tracking-wider" style="color: var(--text-secondary);">💰 Số dư</div>
+                            <div id="userBalance" class="text-3xl font-extrabold text-purple-400 mt-1">0 <span class="text-sm">VND</span></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="glass-panel p-4 rounded-2xl border-t-2 border-purple-500"><div class="text-xs font-medium" style="color: var(--text-secondary);">🎯 Level</div><div id="userLevel" class="text-2xl font-bold text-purple-400 mt-1">1</div></div>
+                        <div class="glass-panel p-4 rounded-2xl border-t-2 border-pink-500"><div class="text-xs font-medium" style="color: var(--text-secondary);">🎮 Ván chơi</div><div id="userTotalGames" class="text-2xl font-bold mt-1" style="color: var(--text-primary);">0</div></div>
+                        <div class="glass-panel p-4 rounded-2xl border-t-2 border-cyan-500"><div class="text-xs font-medium" style="color: var(--text-secondary);">🏆 Thắng/Thua</div><div id="userWinLossRatio" class="text-2xl font-bold text-cyan-400 mt-1">0 / 0</div></div>
+                        <div class="glass-panel p-4 rounded-2xl border-t-2 border-amber-500"><div class="text-xs font-medium" style="color: var(--text-secondary);">📊 Tỷ lệ thắng</div><div id="userWinRate" class="text-2xl font-bold text-amber-400 mt-1">0%</div></div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h3 class="text-lg font-bold flex items-center space-x-2" style="color: var(--text-primary);"><i class="fa-solid fa-trophy text-purple-400"></i><span>📊 Thống Kê Cá Nhân</span></h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm" style="color: var(--text-secondary);">
+                                <thead class="bg-white/5 uppercase text-xs" style="color: var(--text-secondary);"><tr><th class="p-3">Chỉ số</th><th class="p-3 text-right">Chi tiết</th></tr></thead>
+                                <tbody class="divide-y" style="border-color: var(--border-color);">
+                                    <tr><td class="p-3">🏆 Số ván thắng</td><td id="userTotalWins" class="p-3 text-right font-bold text-cyan-400">0</td></tr>
+                                    <tr><td class="p-3">💔 Số ván thua</td><td id="userTotalLosses" class="p-3 text-right font-bold text-rose-400">0</td></tr>
+                                    <tr><td class="p-3">⭐ Game yêu thích</td><td id="userFavGame" class="p-3 text-right font-semibold text-purple-400">Chưa có</td></tr>
+                                    <tr><td class="p-3">💰 Tổng nạp</td><td id="userTotalDeposited" class="p-3 text-right font-bold text-amber-400">0 VND</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-only hidden space-y-6">
+                        <div class="border-t pt-6" style="border-color: var(--border-color);">
+                            <h3 class="text-sm font-bold text-amber-500 uppercase tracking-wider mb-4"><i class="fa-solid fa-shield-halved mr-2"></i>📊 Server Stats</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="glass-panel p-4 rounded-2xl border-t-2 border-cyan-500"><div class="text-xs font-medium" style="color: var(--text-secondary);">👥 Người chơi</div><div id="statTotalPlayers" class="text-2xl font-bold mt-1" style="color: var(--text-primary);">0</div></div>
+                                <div class="glass-panel p-4 rounded-2xl border-t-2 border-emerald-500"><div class="text-xs font-medium" style="color: var(--text-secondary);">💰 Tổng tiền</div><div id="statTotalMoney" class="text-2xl font-bold text-emerald-400 mt-1">0 VND</div></div>
+                                <div class="glass-panel p-4 rounded-2xl border-t-2 border-purple-500"><div class="text-xs font-medium" style="color: var(--text-secondary);">🎮 Tổng ván</div><div id="statTotalGames" class="text-2xl font-bold text-purple-400 mt-1">0</div></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-6 rounded-2xl space-y-4">
+                            <h3 class="text-lg font-bold flex items-center space-x-2" style="color: var(--text-primary);"><i class="fa-solid fa-trophy text-amber-400"></i><span>🏆 Bảng Xếp Hạng</span></h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm" style="color: var(--text-secondary);">
+                                    <thead class="bg-white/5 uppercase text-xs" style="color: var(--text-secondary);"><tr><th class="p-3">#</th><th class="p-3">Người chơi</th><th class="p-3">Level</th><th class="p-3">Thắng/Tổng</th><th class="p-3 text-right">Tài sản</th></tr></thead>
+                                    <tbody id="topPlayersTable" class="divide-y" style="border-color: var(--border-color);"><tr><td colspan="5" class="p-4 text-center" style="color: var(--text-secondary);">Đang tải...</td></tr></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEPOSIT -->
+                <div id="tab-deposit" class="tab-content hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="glass-panel p-6 rounded-2xl space-y-4">
+                            <h3 class="text-lg font-bold flex items-center space-x-2" style="color: var(--text-primary);"><i class="fa-solid fa-wallet text-emerald-400"></i><span>💳 Nạp tiền</span></h3>
+                            <form id="createDepositForm" onsubmit="handleCreateDeposit(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">Số tiền (VND)</label>
+                                    <input type="number" id="depositAmount" min="1000" max="100000000" placeholder="VD: 50000" required class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">Ghi chú</label>
+                                    <input type="text" id="depositNote" placeholder="Nạp tiền mua item" class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
+                                </div>
+                                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold py-2.5 rounded-xl transition hover:scale-105">✨ Tạo hóa đơn</button>
+                            </form>
+                        </div>
+
+                        <div class="glass-panel p-6 rounded-2xl space-y-4">
+                            <h3 class="text-lg font-bold flex items-center space-x-2" style="color: var(--text-primary);"><i class="fa-solid fa-building-columns text-cyan-400"></i><span>🏦 Ngân hàng</span></h3>
+                            <div id="userBankList" class="space-y-3"><p class="text-sm" style="color: var(--text-secondary);">Đang tải...</p></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h3 class="text-lg font-bold" style="color: var(--text-primary);">📜 Lịch sử nạp</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm" style="color: var(--text-secondary);">
+                                <thead class="bg-white/5 uppercase text-xs" style="color: var(--text-secondary);"><tr><th class="p-3">Mã GD</th><th class="p-3">Số tiền</th><th class="p-3">Nội dung</th><th class="p-3">Trạng thái</th><th class="p-3">Thời gian</th></tr></thead>
+                                <tbody id="userDepositHistoryTable" class="divide-y" style="border-color: var(--border-color);"><tr><td colspan="5" class="p-4 text-center" style="color: var(--text-secondary);">Chưa có lịch sử</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADMIN WINRATE -->
+                <div id="tab-admin-winrate" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-amber-500">
+                        <h3 class="text-lg font-bold flex items-center justify-between" style="color: var(--text-primary);">
+                            <span><i class="fa-solid fa-percent text-amber-400 mr-2"></i>🌍 Tỷ lệ Win/Loss</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="globalWinrateEnable" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                            </label>
+                        </h3>
+                        <form onsubmit="saveGlobalWinrate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div><label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">🏆 Thắng (%)</label><input type="number" id="globalWinRate" min="0" max="100" class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></div>
+                            <div><label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">💔 Thua (%)</label><input type="number" id="globalLossRate" min="0" max="100" class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></div>
+                            <div><label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">🤝 Hòa (%)</label><input type="number" id="globalDrawRate" min="0" max="100" class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></div>
+                            <div class="sm:col-span-3"><button type="submit" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-6 py-2.5 rounded-xl transition">💾 Lưu</button></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ADMIN BANKS -->
+                <div id="tab-admin-banks" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-bold" style="color: var(--text-primary);"><i class="fa-solid fa-building-columns text-amber-400 mr-2"></i>🏦 Quản lý ngân hàng</h3>
+                            <button onclick="openAddBankModal()" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition hover:scale-105">+ Thêm</button>
+                        </div>
+                        <div id="adminBankList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    </div>
+                </div>
+
+                <!-- ADMIN USERS -->
+                <div id="tab-admin-users" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h3 class="text-lg font-bold" style="color: var(--text-primary);"><i class="fa-solid fa-coins text-amber-400 mr-2"></i>💰 Quản lý số dư</h3>
+                        <form onsubmit="handleAdminMoney(event)" class="space-y-4 max-w-lg">
+                            <div><label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">User ID</label><input type="text" id="adminMoneyUserId" required class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></div>
+                            <div><label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">Số tiền</label><input type="number" id="adminMoneyAmount" min="1" required class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></div>
+                            <div><label class="block text-xs font-semibold mb-1" style="color: var(--text-secondary);">Lý do</label><input type="text" id="adminMoneyReason" placeholder="Cộng sự kiện / Phạt" class="w-full border rounded-xl p-2.5 focus:outline-none focus:border-purple-500" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></div>
+                            <div class="flex space-x-3">
+                                <button type="submit" onclick="window.moneyAction='add'" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold py-2.5 rounded-xl transition hover:scale-105">+ Cộng</button>
+                                <button type="submit" onclick="window.moneyAction='remove'" class="flex-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold py-2.5 rounded-xl transition hover:scale-105">- Trừ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ADMIN DEPOSITS -->
+                <div id="tab-admin-deposits" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h3 class="text-lg font-bold flex items-center space-x-2" style="color: var(--text-primary);">
+                            <i class="fa-solid fa-circle-check text-amber-400"></i>
+                            <span>✅ Xác thực nạp tiền</span>
+                            <span id="pendingCountBadge" class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full border border-amber-500/30">0 đang chờ</span>
+                        </h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">Quản lý và xác thực các giao dịch nạp tiền từ người dùng</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm" style="color: var(--text-secondary);">
+                                <thead class="bg-white/5 uppercase text-xs" style="color: var(--text-secondary);">
+                                    <tr><th class="p-3">Mã GD</th><th class="p-3">Người dùng</th><th class="p-3">Số tiền</th><th class="p-3">Ghi chú</th><th class="p-3">Trạng thái</th><th class="p-3">Thời gian</th><th class="p-3 text-center">Thao tác</th></tr>
+                                </thead>
+                                <tbody id="adminDepositTable" class="divide-y" style="border-color: var(--border-color);"><tr><td colspan="7" class="p-4 text-center" style="color: var(--text-secondary);">Đang tải...</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // Particles
+        (function createParticles() {
+            const container = document.getElementById('particles');
+            const emojis = ['🎮','🕹️','🎯','🎲','🏆','💎','⚡','⭐','🎪','👾','🎰','🎳'];
+            for (let i = 0; i < 25; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                p.style.left = Math.random() * 100 + '%';
+                p.style.fontSize = (Math.random() * 24 + 14) + 'px';
+                p.style.animationDuration = (Math.random() * 25 + 15) + 's';
+                p.style.animationDelay = (Math.random() * 20) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // Theme
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.getElementById('themeIcon').className = theme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+        }
+        function toggleTheme() { applyTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
+        applyTheme(currentTheme);
+
+        // State
+        let currentUser = null;
+        let globalBanksCache = [];
+        let allDepositsCache = [];
+
+        // Auth
+        document.addEventListener('DOMContentLoaded', async () => { await checkAuth(); loadDashboardData(); });
+
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/auth/user');
+                const data = await res.json();
+                const nav = document.getElementById('navAuthSection');
+
+                if (data.authenticated) {
+                    currentUser = data.user;
+                    nav.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <img src="${currentUser.avatarUrl}" class="w-8 h-8 rounded-full border-2 border-purple-500">
+                            <span class="text-sm font-semibold" style="color: var(--text-primary);">${currentUser.username}</span>
+                            <a href="/auth/logout" class="text-xs ml-2 hover:text-rose-400" style="color: var(--text-secondary);"><i class="fa-solid fa-right-from-bracket"></i></a>
+                        </div>
+                    `;
+                    document.getElementById('view-unauth').classList.add('hidden');
+                    document.getElementById('sidebarNav').classList.remove('hidden');
+                    document.getElementById('tabsContent').classList.remove('hidden');
+
+                    document.getElementById('userName').innerText = currentUser.username;
+                    document.getElementById('userId').innerText = 'ID: ' + currentUser.id;
+                    document.getElementById('userAvatar').src = currentUser.avatarUrl;
+
+                    if (currentUser.isAdmin) {
+                        document.getElementById('userBadge').classList.remove('hidden');
+                        document.getElementById('adminNavGroup').classList.remove('hidden');
+                        document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                    }
+
+                    const profileRes = await fetch('/api/user/profile');
+                    const profileData = await profileRes.json();
+                    if (profileData.success && profileData.playerData) {
+                        const p = profileData.playerData;
+                        document.getElementById('userBalance').innerHTML = `${(p.money||0).toLocaleString('vi-VN')} <span class="text-sm">VND</span>`;
+                        document.getElementById('userLevel').innerText = p.level || 1;
+                        document.getElementById('userTotalGames').innerText = p.totalGames || 0;
+                        document.getElementById('userWinLossRatio').innerText = `${p.totalWins||0} / ${p.totalLosses||0}`;
+                        const wr = p.totalGames > 0 ? Math.round(((p.totalWins||0) / p.totalGames) * 100) : 0;
+                        document.getElementById('userWinRate').innerText = `${wr}%`;
+                        document.getElementById('userTotalWins').innerText = p.totalWins || 0;
+                        document.getElementById('userTotalLosses').innerText = p.totalLosses || 0;
+                        document.getElementById('userFavGame').innerText = p.favoriteGame || 'Chưa có';
+                        document.getElementById('userTotalDeposited').innerText = (p.totalDeposited||0).toLocaleString('vi-VN') + ' VND';
+                    }
+                } else {
+                    nav.innerHTML = `<a href="/auth/discord" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-purple-500/30">🎮 Đăng nhập</a>`;
+                    document.getElementById('view-unauth').classList.remove('hidden');
+                    document.getElementById('sidebarNav').classList.add('hidden');
+                    document.getElementById('tabsContent').classList.add('hidden');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-white/10', 'text-purple-400');
+                el.style.color = 'var(--text-secondary)';
+            });
+            const activeTab = document.getElementById(`tab-${tab}`);
+            const activeBtn = document.getElementById(`btn-${tab}`);
+            if (activeTab) activeTab.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white/10', 'text-purple-400');
+                activeBtn.style.color = '#8b5cf6';
+            }
+            if (tab === 'deposit') loadDepositTab();
+            if (tab === 'admin-winrate') loadWinrateTab();
+            if (tab === 'admin-banks') loadAdminBanksTab();
+            if (tab === 'admin-deposits') loadAdminDepositsTab();
+        }
+
+        // Dashboard
+        async function loadDashboardData() {
+            if (!currentUser?.isAdmin) return;
+            try {
+                const res = await fetch('/api/players/stats');
+                const data = await res.json();
+                document.getElementById('statTotalPlayers').innerText = data.totalPlayers || 0;
+                document.getElementById('statTotalMoney').innerText = (data.totalMoney||0).toLocaleString('vi-VN') + ' VND';
+                document.getElementById('statTotalGames').innerText = data.totalGames || 0;
+                const tbody = document.getElementById('topPlayersTable');
+                if (data.topPlayers?.length) {
+                    tbody.innerHTML = data.topPlayers.map((p,i) => `
+                        <tr class="hover:bg-white/5">
+                            <td class="p-3 font-bold ${i===0?'text-amber-400':'text-slate-400'}">#${i+1}</td>
+                            <td class="p-3 font-semibold" style="color:var(--text-primary);">${p.username}</td>
+                            <td class="p-3"><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full text-xs">Lv.${p.level}</span></td>
+                            <td class="p-3 text-xs" style="color:var(--text-secondary);">${p.totalWins} / ${p.totalGames}</td>
+                            <td class="p-3 text-right font-bold text-purple-400">${p.money.toLocaleString('vi-VN')} VND</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center" style="color:var(--text-secondary);">Chưa có người chơi</td></tr>`;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // Deposit Tab
+        async function loadDepositTab() {
+            // Banks
+            const resBank = await fetch('/api/banks');
+            const dataBank = await resBank.json();
+            const container = document.getElementById('userBankList');
+            if (dataBank.success && dataBank.data.length) {
+                const active = dataBank.data.filter(b => b.active);
+                container.innerHTML = active.length ? active.map(b => `
+                    <div class="p-3 rounded-xl border space-y-1" style="background:var(--bg-primary);border-color:var(--border-color);">
+                        <div class="text-xs uppercase font-semibold" style="color:var(--text-secondary);">${b.bankName} ${b.branch ? '- '+b.branch : ''}</div>
+                        <div class="text-base font-bold text-purple-400 font-mono">${b.accountNumber}</div>
+                        <div class="text-xs" style="color:var(--text-secondary);">Chủ TK: ${b.accountHolder}</div>
+                        ${b.content ? `<div class="text-xs text-cyan-400 font-mono">Cú pháp: ${b.content}</div>` : ''}
+                    </div>
+                `).join('') : `<p class="text-sm" style="color:var(--text-secondary);">Hiện không có ngân hàng nào đang hoạt động.</p>`;
+            } else {
+                container.innerHTML = `<p class="text-sm" style="color:var(--text-secondary);">Chưa có ngân hàng nào được thiết lập.</p>`;
+            }
+
+            // History
+            if (currentUser) {
+                const resHist = await fetch(`/api/deposits/user/${currentUser.id}`);
+                const dataHist = await resHist.json();
+                const tbody = document.getElementById('userDepositHistoryTable');
+                if (dataHist.success && dataHist.data.length) {
+                    tbody.innerHTML = dataHist.data.map(d => `
+                        <tr>
+                            <td class="p-3 font-mono text-xs text-purple-400">${d.transactionId}</td>
+                            <td class="p-3 font-bold text-emerald-400">${d.amount.toLocaleString('vi-VN')} VND</td>
+                            <td class="p-3 font-mono text-xs" style="color:var(--text-secondary);">${d.transferContent || d.note || ''}</td>
+                            <td class="p-3"><span class="px-2 py-0.5 rounded-full text-xs font-semibold ${d.status==='completed'?'bg-emerald-500/20 text-emerald-400':d.status==='rejected'?'bg-rose-500/20 text-rose-400':'bg-amber-500/20 text-amber-400'}">${d.status.toUpperCase()}</span></td>
+                            <td class="p-3 text-xs" style="color:var(--text-secondary);">${new Date(d.time).toLocaleString('vi-VN')}</td>
+                        </tr>
+                    `).join('');
+                }
+            }
+        }
+
+        // Create Deposit
+        async function handleCreateDeposit(e) {
+            e.preventDefault();
+            if (!currentUser) return Swal.fire('Lỗi', 'Vui lòng đăng nhập!', 'error');
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            const note = document.getElementById('depositNote').value;
+            if (!amount || amount < 1000) return Swal.fire('Lỗi', 'Số tiền tối thiểu là 1.000 VND!', 'warning');
+            const res = await fetch('/api/deposits/create', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: currentUser.id, amount, note })
+            });
+            const data = await res.json();
+            if (data.success) {
+                Swal.fire({ icon: 'success', title: '🎉 Tạo hóa đơn thành công!', text: `Mã GD: ${data.transactionId}`, timer: 3000 });
+                loadDepositTab();
+                document.getElementById('depositAmount').value = '';
+                document.getElementById('depositNote').value = '';
+            } else {
+                Swal.fire('Thất bại', data.message, 'error');
+            }
+        }
+
+        // Winrate Tab
+        async function loadWinrateTab() {
+            const res = await fetch('/api/global-winrate');
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('globalWinrateEnable').checked = data.data.enabled;
+                document.getElementById('globalWinRate').value = data.data.winRate;
+                document.getElementById('globalLossRate').value = data.data.lossRate;
+                document.getElementById('globalDrawRate').value = data.data.drawRate;
+            }
+        }
+
+        async function saveGlobalWinrate(e) {
+            e.preventDefault();
+            const enabled = document.getElementById('globalWinrateEnable').checked;
+            const winRate = parseFloat(document.getElementById('globalWinRate').value);
+            const lossRate = parseFloat(document.getElementById('globalLossRate').value);
+            const drawRate = parseFloat(document.getElementById('globalDrawRate').value);
+            if (winRate + lossRate + drawRate !== 100) return Swal.fire('Lỗi', 'Tổng tỷ lệ phải bằng 100%!', 'warning');
+            const res = await fetch('/api/global-winrate', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ enabled, winRate, lossRate, drawRate })
+            });
+            const data = await res.json();
+            if (data.success) Swal.fire('Cập nhật', data.message, 'success');
+        }
+
+        // Admin Banks
+        async function loadAdminBanksTab() {
+            const res = await fetch('/api/banks');
+            const data = await res.json();
+            const container = document.getElementById('adminBankList');
+            if (data.success) {
+                globalBanksCache = data.data;
+                if (globalBanksCache.length) {
+                    container.innerHTML = globalBanksCache.map(b => `
+                        <div class="p-4 rounded-xl border space-y-3" style="background:var(--bg-primary);border-color:var(--border-color);">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-base" style="color:var(--text-primary);">${b.bankName}</span>
+                                <span class="text-xs px-2.5 py-0.5 rounded-full font-semibold ${b.active?'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30':'bg-rose-500/20 text-rose-400 border border-rose-500/30'}">
+                                    <i class="fa-solid fa-circle text-[8px] mr-1"></i>${b.active?'Hoạt động':'Tạm dừng'}
+                                </span>
+                            </div>
+                            <div class="text-xs space-y-1" style="color:var(--text-secondary);">
+                                <p>Số TK: <span class="text-purple-400 font-mono font-bold text-sm">${b.accountNumber}</span></p>
+                                <p>Chủ TK: <span style="color:var(--text-primary);">${b.accountHolder}</span></p>
+                                <p>Chi nhánh: <span style="color:var(--text-primary);">${b.branch||'Không có'}</span></p>
+                                ${b.content ? `<p>Cú pháp: <span class="text-cyan-400 font-mono">${b.content}</span></p>` : ''}
+                            </div>
+                            <div class="flex items-center justify-between pt-2 border-t" style="border-color:var(--border-color);">
+                                <button onclick="toggleBankStatus('${b.id}',${!b.active})" class="text-xs px-2.5 py-1 rounded-xl transition ${b.active?'bg-amber-600/20 hover:bg-amber-600/30 text-amber-300':'bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300'}">
+                                    <i class="fa-solid ${b.active?'fa-pause':'fa-play'} mr-1"></i>${b.active?'Tạm dừng':'Kích hoạt'}
+                                </button>
+                                <div class="space-x-2">
+                                    <button onclick="openEditBankModal('${b.id}')" class="text-xs text-purple-400 hover:underline"><i class="fa-solid fa-pen-to-square mr-1"></i>Sửa</button>
+                                    <button onclick="deleteBank('${b.id}')" class="text-xs text-rose-400 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Xóa</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = `<p class="text-sm col-span-2" style="color:var(--text-secondary);">Chưa có ngân hàng nào.</p>`;
+                }
+            }
+        }
+
+        // Bank Modals
+        async function openAddBankModal() {
+            const { value: v } = await Swal.fire({
+                title: '🏦 Thêm Ngân Hàng Mới',
+                html: `
+                    <div style="text-align:left;max-width:400px;margin:0 auto;">
+                        ${['bankName','TÊN NGÂN HÀNG','accountHolder','CHỦ TÀI KHOẢN','accountNumber','SỐ TÀI KHOẢN','branch','CHI NHÁNH (Tùy chọn)','content','CÚ PHÁP NẠP (Tùy chọn)'].map((f,i) => `
+                            <div class="bank-input-group">
+                                <i class="fa-solid ${['fa-building-columns','fa-user','fa-hashtag','fa-location-dot','fa-pen'][Math.floor(i/2)%5]} input-icon"></i>
+                                <label class="input-label">${f.split(' ').slice(1).join(' ')}</label>
+                                <input id="swal-${f.split(' ')[0]}" placeholder="${f.split(' ').slice(1).join(' ')}" ${['bankName','accountHolder','accountNumber'].includes(f.split(' ')[0]) ? 'required' : ''}>
+                            </div>
+                        `).join('')}
+                    </div>
+                `,
+                width: 500, padding: '1.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)',
+                confirmButtonColor: '#8b5cf6', cancelButtonColor: '#6b7280',
+                confirmButtonText: '✨ Thêm', cancelButtonText: '❌ Hủy', showCancelButton: true,
+                preConfirm: () => {
+                    const bankName = document.getElementById('swal-bankName').value.trim();
+                    const accountHolder = document.getElementById('swal-accountHolder').value.trim();
+                    const accountNumber = document.getElementById('swal-accountNumber').value.trim();
+                    if (!bankName || !accountHolder || !accountNumber) {
+                        Swal.showValidationMessage('⚠️ Vui lòng điền đầy đủ Tên NH, Chủ TK và Số TK!');
+                        return false;
+                    }
+                    return {
+                        bankName, accountHolder, accountNumber,
+                        branch: document.getElementById('swal-branch').value.trim(),
+                        content: document.getElementById('swal-content').value.trim()
+                    };
+                }
+            });
+            if (v) {
+                const res = await fetch('/api/banks', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
+                const data = await res.json();
+                if (data.success) {
+                    Swal.fire({ icon: 'success', title: 'Thành công!', text: data.message, timer: 2000, showConfirmButton: false });
+                    loadAdminBanksTab();
+                } else Swal.fire('Lỗi', data.message, 'error');
+            }
+        }
+
+        async function openEditBankModal(id) {
+            const bank = globalBanksCache.find(b => b.id === id);
+            if (!bank) return;
+            const { value: v } = await Swal.fire({
+                title: '✏️ Chỉnh Sửa Ngân Hàng',
+                html: `
+                    <div style="text-align:left;max-width:400px;margin:0 auto;">
+                        ${[
+                            ['bankName','TÊN NGÂN HÀNG',bank.bankName],
+                            ['accountHolder','CHỦ TÀI KHOẢN',bank.accountHolder],
+                            ['accountNumber','SỐ TÀI KHOẢN',bank.accountNumber],
+                            ['branch','CHI NHÁNH',bank.branch||''],
+                            ['content','CÚ PHÁP NẠP',bank.content||'']
+                        ].map(([id2,label,val]) => `
+                            <div class="bank-input-group">
+                                <i class="fa-solid ${['fa-building-columns','fa-user','fa-hashtag','fa-location-dot','fa-pen'][['bankName','accountHolder','accountNumber','branch','content'].indexOf(id2)]} input-icon"></i>
+                                <label class="input-label">${label}</label>
+                                <input id="swal-edit-${id2}" value="${val}" placeholder="${label}">
+                            </div>
+                        `).join('')}
+                    </div>
+                `,
+                width: 500, padding: '1.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)',
+                confirmButtonColor: '#8b5cf6', cancelButtonColor: '#6b7280',
+                confirmButtonText: '💾 Lưu', cancelButtonText: '❌ Hủy', showCancelButton: true,
+                preConfirm: () => ({
+                    bankName: document.getElementById('swal-edit-bankName').value.trim(),
+                    accountHolder: document.getElementById('swal-edit-accountHolder').value.trim(),
+                    accountNumber: document.getElementById('swal-edit-accountNumber').value.trim(),
+                    branch: document.getElementById('swal-edit-branch').value.trim(),
+                    content: document.getElementById('swal-edit-content').value.trim()
+                })
+            });
+            if (v) {
+                const res = await fetch(`/api/banks/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
+                const data = await res.json();
+                if (data.success) {
+                    Swal.fire({ icon: 'success', title: 'Cập nhật thành công!', text: data.message, timer: 2000, showConfirmButton: false });
+                    loadAdminBanksTab();
+                } else Swal.fire('Lỗi', data.message, 'error');
+            }
+        }
+
+        async function toggleBankStatus(id, active) {
+            const res = await fetch(`/api/banks/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ active }) });
+            const data = await res.json();
+            if (data.success) {
+                Swal.fire({ icon: 'success', title: 'Thành công', text: data.message, timer: 1500, showConfirmButton: false });
+                loadAdminBanksTab();
+            } else Swal.fire('Lỗi', data.message, 'error');
+        }
+
+        async function deleteBank(id) {
+            const confirm = await Swal.fire({ title: '⚠️ Xác nhận xóa?', text: 'Bạn có chắc chắn muốn xóa ngân hàng này không?', icon: 'warning', showCancelButton: true, confirmButtonText: '🗑️ Xóa', cancelButtonText: 'Hủy', background: 'var(--bg-secondary)', color: 'var(--text-primary)', confirmButtonColor: '#ef4444' });
+            if (confirm.isConfirmed) {
+                const res = await fetch(`/api/banks/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    Swal.fire('Đã xóa', data.message, 'success');
+                    loadAdminBanksTab();
+                } else Swal.fire('Lỗi', data.message, 'error');
+            }
+        }
+
+        // Admin Money
+        async function handleAdminMoney(e) {
+            e.preventDefault();
+            const userId = document.getElementById('adminMoneyUserId').value;
+            const amount = parseFloat(document.getElementById('adminMoneyAmount').value);
+            const reason = document.getElementById('adminMoneyReason').value;
+            const action = window.moneyAction || 'add';
+            const endpoint = action === 'add' ? '/api/admin/addmoney' : '/api/admin/removemoney';
+            if (!userId || !amount) return Swal.fire('Lỗi', 'Vui lòng nhập User ID và số tiền!', 'warning');
+            const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, amount, reason }) });
+            const data = await res.json();
+            if (data.success) {
+                Swal.fire('Thành công', data.message, 'success');
+                document.getElementById('adminMoneyUserId').value = '';
+                document.getElementById('adminMoneyAmount').value = '';
+                document.getElementById('adminMoneyReason').value = '';
+                loadDashboardData();
+            } else Swal.fire('Lỗi', data.message, 'error');
+        }
+
+        // Admin Deposits - Xác thực nạp
+        async function loadAdminDepositsTab() {
+            try {
+                const res = await fetch('/api/deposits');
+                const data = await res.json();
+                const tbody = document.getElementById('adminDepositTable');
+                const badge = document.getElementById('pendingCountBadge');
+                if (data.success) {
+                    allDepositsCache = data.data || [];
+                    const pendingCount = allDepositsCache.filter(d => d.status === 'pending').length;
+                    badge.textContent = `${pendingCount} đang chờ`;
+                    if (allDepositsCache.length) {
+                        tbody.innerHTML = allDepositsCache.map(d => `
+                            <tr class="hover:bg-white/5">
+                                <td class="p-3 font-mono text-xs text-purple-400">${d.transactionId}</td>
+                                <td class="p-3 font-semibold" style="color:var(--text-primary);">${d.userId}</td>
+                                <td class="p-3 font-bold text-emerald-400">${d.amount.toLocaleString('vi-VN')} VND</td>
+                                <td class="p-3 text-xs" style="color:var(--text-secondary);">${d.note||d.transferContent||''}</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded-full text-xs font-semibold ${d.status==='completed'?'bg-emerald-500/20 text-emerald-400':d.status==='rejected'?'bg-rose-500/20 text-rose-400':'bg-amber-500/20 text-amber-400'}">${d.status.toUpperCase()}</span></td>
+                                <td class="p-3 text-xs" style="color:var(--text-secondary);">${new Date(d.time).toLocaleString('vi-VN')}</td>
+                                <td class="p-3 text-center">
+                                    ${d.status==='pending' ? `
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <button onclick="approveDeposit('${d.transactionId}')" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 px-3 py-1 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-check mr-1"></i>Duyệt</button>
+                                            <button onclick="rejectDeposit('${d.transactionId}')" class="bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 px-3 py-1 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-xmark mr-1"></i>Từ chối</button>
+                                        </div>
+                                    ` : d.status==='completed' ? `<span class="text-emerald-400 text-xs"><i class="fa-solid fa-check-circle mr-1"></i>Đã duyệt</span>` :
+                                    `<span class="text-rose-400 text-xs"><i class="fa-solid fa-ban mr-1"></i>Đã từ chối</span>`}
+                                </td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center" style="color:var(--text-secondary);">Chưa có giao dịch nào</td></tr>`;
+                    }
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // Approve / Reject
+        async function approveDeposit(id) {
+            const confirm = await Swal.fire({
+                title: '✅ Xác nhận duyệt?', text: `Bạn có chắc chắn muốn duyệt giao dịch ${id}?`,
+                icon: 'question', showCancelButton: true, confirmButtonText: '✅ Duyệt', cancelButtonText: 'Hủy',
+                background: 'var(--bg-secondary)', color: 'var(--text-primary)', confirmButtonColor: '#10b981'
+            });
+            if (confirm.isConfirmed) {
+                const res = await fetch(`/api/deposits/approve/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                const data = await res.json();
+                if (data.success) {
+                    Swal.fire({ icon: 'success', title: '✅ Duyệt thành công!', text: data.message, timer: 2000, showConfirmButton: false });
+                    loadAdminDepositsTab();
+                    loadDashboardData();
+                    if (currentUser) {
+                        const profileRes = await fetch('/api/user/profile');
+                        const profileData = await profileRes.json();
+                        if (profileData.success && profileData.playerData) {
+                            document.getElementById('userBalance').innerHTML = `${(profileData.playerData.money||0).toLocaleString('vi-VN')} <span class="text-sm">VND</span>`;
+                        }
+                    }
+                } else Swal.fire('Lỗi', data.message, 'error');
+            }
+        }
+
+        async function rejectDeposit(id) {
+            const confirm = await Swal.fire({
+                title: '❌ Xác nhận từ chối?', text: `Bạn có chắc chắn muốn từ chối giao dịch ${id}?`,
+                icon: 'warning', showCancelButton: true, confirmButtonText: '❌ Từ chối', cancelButtonText: 'Hủy',
+                background: 'var(--bg-secondary)', color: 'var(--text-primary)', confirmButtonColor: '#ef4444'
+            });
+            if (confirm.isConfirmed) {
+                const res = await fetch(`/api/deposits/reject/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                const data = await res.json();
+                if (data.success) {
+                    Swal.fire({ icon: 'success', title: '❌ Đã từ chối!', text: data.message, timer: 2000, showConfirmButton: false });
+                    loadAdminDepositsTab();
+                } else Swal.fire('Lỗi', data.message, 'error');
+            }
+        }
+
+        // Auto refresh deposits
+        setInterval(() => {
+            if (currentUser?.isAdmin) {
+                const tab = document.getElementById('tab-admin-deposits');
+                if (tab && !tab.classList.contains('hidden')) loadAdminDepositsTab();
+            }
+        }, 10000);
+    </script>
+</body>
+</html>

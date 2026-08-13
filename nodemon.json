@@ -1,0 +1,12 @@
+{
+  "watch": ["."],
+  "ignore": ["node_modules", "players_data.json", "transactions.json", "config.json", "*.backup.*"],
+  "ext": "js,json",
+  "delay": 1000,
+  "events": {
+    "restart": "echo '🔄 Bot đang khởi động lại...'"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
